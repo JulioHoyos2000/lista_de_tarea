@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+  <class>MainWindow</class>
+  <widget class="QMainWindow" name="MainWindow">
+    <property name="geometry">
+      <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>947</width>
+        <height>600</height>
+      </rect>
+    </property>
+    <property name="windowTitle">
+      <string>MainWindow</string>
+    </property>
+    <property name="styleSheet">
+      <string notr="true">
+        /* (Tu CSS, con ajustes para QLineEdit y QPushButton específicos) */
+        QMainWindow {
+          background-color: white;
+        }
+        QTableWidget {
+          border: none;
+          background-color: white;
+          gridline-color: #E5E5E5;
+        }
+        QTableWidget::item {
+          padding: 5px;
+          border-bottom: 1px solid #E5E5E5;
+        }
+        QHeaderView::section {
+          background-color: white;
+          padding: 10px 5px;
+          border: none;
+          font-weight: bold;
+          text-align: left;
+        }
+        /* Estilos específicos para los botones designados */
+        #searchButton, #pushButton_2, #pushButton_3, #pushButton_4 {
+          background-color: #00BCD4;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          min-height: 30px; /* Altura de 30px para estos QPushButton */
+          padding: 4px 20px;
+        }
+        /* Overrides individuales si se requiere */
+        #logoutButton {
+          background-color: #00BCD4;
+          color: white;
+          border: none;
+          padding: 4px 8px;
+          border-radius: 4px;
+          min-width: 80px;
+          min-height: 30px;
+        }
+        #actionButton, #tableButton {
+          background-color: #00BCD4;
+          color: white;
+          border: none;
+          border-radius: 4px;
+        }
+        #actionButton {
+          min-width: 80px;
+        }
+        #tableButton {
+          min-width: 70px;
+        }
+        QLineEdit {
+          padding: 8px;
+          border: 1px solid #CCCCCC;
+          border-radius: 4px;
+          min-height: 30px;  /* Altura de 30px para QLineEdit */
+        }
+        QComboBox {
+          padding: 5px 10px;
+          border: 1px solid #CCCCCC;
+          border-radius: 4px;
+          min-width: 80px;
+          max-width: 80px;
+          min-height: 30px; /* Altura de 30px para QComboBox */
+          background-color: #FFDAB9;
+        }
+        QComboBox::drop-down {
+          border: none;
+          width: 20px;
+        }
+        QComboBox::down-arrow {
+          image: url(down_arrow.png);
+          width: 12px;
+          height: 12px;
+        }
+      </string>
+    </property>
+    <widget class="QWidget" name="centralwidget">
+      <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+          <number>12</number>
+        </property>
+        <property name="leftMargin">
+          <number>30</number>
+        </property>
+        <property name="topMargin">
+          <number>10</number>
+        </property>
+        <property name="rightMargin">
+          <number>30</number>
+        </property>
+        <property name="bottomMargin">
+          <number>10</number>
+        </property>
+        <!-- Título -->
+        <item>
+          <widget class="QLabel" name="label">
+            <property name="font">
+              <font>
+                <pointsize>11</pointsize>
+                <bold>true</bold>
+              </font>
+            </property>
+            <property name="text">
+              <string>BIENVENIDO Usuario</string>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignCenter</set>
+            </property>
+          </widget>
+        </item>
+        <!-- Subtítulo -->
+        <item>
+          <widget class="QLabel" name="label_2">
+            <property name="font">
+              <font>
+                <pointsize>11</pointsize>
+                <bold>true</bold>
+              </font>
+            </property>
+            <property name="text">
+              <string>TODO - LIST</string>
+            </property>
+            <property name="alignment">
+              <set>Qt::AlignCenter</set>
+            </property>
+          </widget>
+        </item>
+        <!-- Barra de búsqueda -->
+        <item>
+          <layout class="QHBoxLayout" name="searchLayout">
+            <property name="spacing">
+              <number>10</number>
+            </property>
+            <item>
+              <widget class="QLineEdit" name="lineEdit">
+                <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                  </sizepolicy>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QPushButton" name="searchButton">
+                <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                  </sizepolicy>
+                </property>
+                <property name="text">
+                  <string>BUSCAR</string>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <spacer name="horizontalSpacer_search">
+                <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                  <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                  <size>
+                    <width>40</width>
+                    <height>20</height>
+                  </size>
+                </property>
+              </spacer>
+            </item>
+            <item>
+              <widget class="QPushButton" name="pushButton_4">
+                <property name="text">
+                  <string>EXPORTAR</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </item>
+        <!-- Layout de Filtros -->
+        <item>
+          <layout class="QHBoxLayout" name="filtersLayout">
+            <property name="spacing">
+              <number>10</number>
+            </property>
+            <item>
+              <widget class="QComboBox" name="comboBox">
+                <item>
+                  <property name="text">
+                    <string>TODAS</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Alta</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Media</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Baja</string>
+                  </property>
+                </item>
+              </widget>
+            </item>
+            <item>
+              <widget class="QComboBox" name="comboBox_2">
+                <item>
+                  <property name="text">
+                    <string>MATEMATICA</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>RED</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>PROEYCTO</string>
+                  </property>
+                </item>
+              </widget>
+            </item>
+            <item>
+              <widget class="QComboBox" name="comboBox_3">
+                <item>
+                  <property name="text">
+                    <string>TODAS</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Pendiente</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>En Proceso</string>
+                  </property>
+                </item>
+                <item>
+                  <property name="text">
+                    <string>Completada</string>
+                  </property>
+                </item>
+              </widget>
+            </item>
+            <item>
+              <spacer name="horizontalSpacer_filter">
+                <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                  <enum>QSizePolicy::Expanding</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                  <size>
+                    <width>40</width>
+                    <height>20</height>
+                  </size>
+                </property>
+              </spacer>
+            </item>
+            <item>
+              <widget class="QPushButton" name="pushButton_2">
+                <property name="text">
+                  <string>CATEGORY</string>
+                </property>
+              </widget>
+            </item>
+            <item>
+              <widget class="QPushButton" name="pushButton_3">
+                <property name="text">
+                  <string>NEW TASK</string>
+                </property>
+              </widget>
+            </item>
+          </layout>
+        </item>
+        <!-- Spacer vertical extra para dejar separación entre filtros y tabla -->
+        <item>
+          <spacer name="verticalSpacer_extra">
+            <property name="orientation">
+              <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+              <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+              <size>
+                <width>20</width>
+                <height>50</height>
+              </size>
+            </property>
+          </spacer>
+        </item>
+        <!-- Widget de Tabla -->
+        <item>
+          <widget class="QTableWidget" name="tableWidget">
+            <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+              </sizepolicy>
+            </property>
+            <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAsNeeded</enum>
+            </property>
+            <attribute name="horizontalHeaderStretchLastSection">
+              <bool>true</bool>
+            </attribute>
+            <column>
+              <property name="text">
+                <string>MARCAR</string>
+              </property>
+            </column>
+            <column>
+              <property name="text">
+                <string>TITULO</string>
+              </property>
+            </column>
+            <column>
+              <property name="text">
+                <string>CATEGORIA</string>
+              </property>
+            </column>
+            <column>
+              <property name="text">
+                <string>PRIORIDAD</string>
+              </property>
+            </column>
+            <column>
+              <property name="text">
+                <string>ESTADO</string>
+              </property>
+            </column>
+            <column>
+              <property name="text">
+                <string>FECHA</string>
+              </property>
+            </column>
+            <column>
+              <property name="text">
+                <string>ACCIONES</string>
+              </property>
+            </column>
+          </widget>
+        </item>
+      </layout>
+    </widget>
+    <widget class="QMenuBar" name="menubar">
+      <property name="geometry">
+        <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>947</width>
+          <height>22</height>
+        </rect>
+      </property>
+    </widget>
+    <widget class="QStatusBar" name="statusbar"/>
+  </widget>
+  <resources/>
+  <connections/>
+</ui>
