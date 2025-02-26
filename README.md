@@ -3,4 +3,4 @@
 | Apellido | Nombres |   
 |----------|---------|
 | Hoyos Lopes   | Julio  |
-| Palomino Taype | Nelsi     |
+| Palomino Taype | Nelsy     |
