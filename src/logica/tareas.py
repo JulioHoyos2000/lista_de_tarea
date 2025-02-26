@@ -83,7 +83,6 @@ class Tareas:
 
     @staticmethod
     def eliminar_tarea(id_tarea):
-
         db = next(get_db())
         try:
             tarea = db.query(Tarea).filter(Tarea.idTarea == id_tarea).first()
@@ -102,12 +101,13 @@ class Tareas:
             db.close()
 
     @staticmethod
-    def listar_tareas():
+    def listar_tareas(id_usuario):
         db = next(get_db())
         try:
             resultados = (
                 db.query(Tarea, Categoria)
                 .outerjoin(Categoria, Tarea.id_categoria == Categoria.idCat)
+                .filter(Tarea.id_usuario == id_usuario)
                 .all()
             )
             tareas = []
@@ -129,10 +129,10 @@ class Tareas:
             db.close()
 
     @staticmethod
-    def filtrar_por_prioridad(prioridad):
+    def filtrar_por_prioridad(prioridad, id_usuario):
         db = next(get_db())
         try:
-            tareas = db.query(Tarea).filter(Tarea.prioridad == prioridad).all()
+            tareas = db.query(Tarea).filter(Tarea.prioridad == prioridad, Tarea.id_usuario == id_usuario).all()
             return tareas
         except SQLAlchemyError as e:
             print("❌ Error al filtrar tareas por prioridad:", str(e))
@@ -141,10 +141,10 @@ class Tareas:
             db.close()
 
     @staticmethod
-    def filtrar_por_estado(estado):
+    def filtrar_por_estado(estado, id_usuario):
         db = next(get_db())
         try:
-            tareas = db.query(Tarea).filter(Tarea.estado == estado).all()
+            tareas = db.query(Tarea).filter(Tarea.estado == estado, Tarea.id_usuario == id_usuario).all()
             return tareas
         except SQLAlchemyError as e:
             print("❌ Error al filtrar tareas por estado:", str(e))
@@ -153,13 +153,13 @@ class Tareas:
             db.close()
 
     @staticmethod
-    def filtrar_por_categoria(nombre_categoria):
+    def filtrar_por_categoria(nombre_categoria, id_usuario):
         db = next(get_db())
         try:
             tareas = (
                 db.query(Tarea)
                 .join(Tarea.categoria_obj)
-                .filter(Categoria.nombre == nombre_categoria)
+                .filter(Categoria.nombre == nombre_categoria, Tarea.id_usuario == id_usuario)
                 .all()
             )
             return tareas
@@ -170,16 +170,15 @@ class Tareas:
             db.close()
 
     @staticmethod
-    def buscar_por_titulo(titulo):
+    def buscar_por_titulo(titulo, id_usuario):
         db = next(get_db())
         try:
             tareas = (
                 db.query(Tarea, Categoria)
                 .outerjoin(Categoria, Tarea.id_categoria == Categoria.idCat)
-                .filter(Tarea.titulo.ilike(f"%{titulo}%"))
+                .filter(Tarea.titulo.ilike(f"%{titulo}%"), Tarea.id_usuario == id_usuario)
                 .all()
             )
-
             resultado = []
             for tarea, categoria in tareas:
                 resultado.append({
@@ -197,4 +196,3 @@ class Tareas:
             return []
         finally:
             db.close()
-            

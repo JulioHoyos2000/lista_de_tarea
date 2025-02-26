@@ -70,10 +70,9 @@ class CategoryForm(QMainWindow):
 
     def cargar_categorias(self):
         try:
-            # Clear combo and internal mapping before reloading
             self.categoria_combo.clear()
             self.categorias_map.clear()
-            categorias = Categorias.listar_categorias()
+            categorias = Categorias.listar_categorias(self.user_id)
             nombres_categorias = []
             for cat in categorias:
                 nombres_categorias.append(cat.nombre)
@@ -130,11 +129,11 @@ class CategoryForm(QMainWindow):
 
     def closeEvent(self, event):
         unsaved_changes = (
-            self.titulo_input.text().strip() or
-            self.categoria_combo.currentIndex() != 0 or
-            self.prioridad_combo.currentIndex() != 0 or
-            self.estado_combo.currentIndex() != 0 or
-            self.date_edit.date() != QDate.currentDate()
+                self.titulo_input.text().strip() or
+                self.categoria_combo.currentIndex() != 0 or
+                self.prioridad_combo.currentIndex() != 0 or
+                self.estado_combo.currentIndex() != 0 or
+                self.date_edit.date() != QDate.currentDate()
         )
         if unsaved_changes:
             reply = QMessageBox.question(
@@ -151,7 +150,5 @@ class CategoryForm(QMainWindow):
             event.accept()
 
     def showEvent(self, event):
-        # Refresh categories every time the form is shown.
         self.cargar_categorias()
         super().showEvent(event)
-

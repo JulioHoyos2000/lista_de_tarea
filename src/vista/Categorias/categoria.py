@@ -11,6 +11,8 @@ from src.logica.categorias import Categorias
 
 class CrearCategoria(QMainWindow):
     categoria_creada = pyqtSignal(dict)
+    categoria_editada = pyqtSignal(dict)
+    categoria_eliminada = pyqtSignal(int)
 
     def __init__(self, usuario_id=None, parent=None):
         super().__init__(parent)
@@ -128,7 +130,8 @@ class CrearCategoria(QMainWindow):
 
     def cargar_categorias(self):
         self.table.setRowCount(0)
-        categorias = Categorias.listar_categorias()
+        # IMPORTANT: Pass the user_id to list only the categories for the current user.
+        categorias = Categorias.listar_categorias(self.usuario_id)
         for cat in categorias:
             categoria_data = {
                 "idCat": cat.idCat,
@@ -196,12 +199,20 @@ class CrearCategoria(QMainWindow):
             QMessageBox.warning(self, "Error", "No se encontró la categoría.")
             return
 
+        # Update table
         new_item = QTableWidgetItem(nombre)
         new_item.setData(Qt.ItemDataRole.UserRole, id_cat)
         self.table.setItem(row, 0, new_item)
         self.table.setItem(row, 1, QTableWidgetItem(nueva_fecha))
         dialog.accept()
         QMessageBox.information(self, "Éxito", "Categoría editada con éxito.")
+        # Emit signal with updated category data
+        categoria_data = {
+            "idCat": id_cat,
+            "nombre": nombre,
+            "fecha": nueva_fecha
+        }
+        self.categoria_editada.emit(categoria_data)
 
     def eliminar_categoria(self, row):
         respuesta = QMessageBox.question(
@@ -219,6 +230,7 @@ class CrearCategoria(QMainWindow):
             if eliminado:
                 self.table.removeRow(row)
                 QMessageBox.information(self, "Éxito", "Categoría eliminada.")
+                # Emit signal with the id of the deleted category
+                self.categoria_eliminada.emit(id_cat)
             else:
                 QMessageBox.warning(self, "Error", "No se pudo eliminar la categoría.")
-

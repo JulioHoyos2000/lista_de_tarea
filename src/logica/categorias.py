@@ -81,10 +81,10 @@ class Categorias:
             db.close()
 
     @staticmethod
-    def listar_categorias():
+    def listar_categorias(user_id):
         db = next(get_db())
         try:
-            categorias = db.query(Categoria).all()
+            categorias = db.query(Categoria).filter(Categoria.user_id == user_id).all()
             return categorias
         except SQLAlchemyError as e:
             print("❌ Error al listar las categorías:", str(e))
@@ -92,8 +92,3 @@ class Categorias:
         finally:
             db.close()
 
-if __name__ == "__main__":
-    # Ejemplo de uso: listar categorías
-    categorias = Categorias.listar_categorias()
-    for cat in categorias:
-        print(f"Categoría: {cat.idCat}, {cat.nombre}, {cat.fecha}")

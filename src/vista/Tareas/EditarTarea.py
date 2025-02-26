@@ -11,9 +11,10 @@ from src.logica.categorias import Categorias
 class EditarTarea(QMainWindow):
     tarea_guardada = pyqtSignal(dict)
 
-    def __init__(self, tarea_data):
+    def __init__(self, tarea_data, user_id: str):
         super().__init__()
         self.tarea_data = tarea_data
+        self.user_id = user_id
         self.db = next(get_db())
         self.setWindowTitle("Editar Tarea")
         self.setFixedWidth(330)
@@ -49,17 +50,20 @@ class EditarTarea(QMainWindow):
         date_label = QLabel("FECHA:")
         main_layout.addWidget(date_label)
         self.date_edit = QDateEdit(calendarPopup=True)
-        # Procesar la fecha para que se muestre correctamente
         fecha_val = self.tarea_data["fecha"]
         if isinstance(fecha_val, str):
             fecha_qdate = QDate.fromString(fecha_val, "yyyy-MM-dd")
             if fecha_qdate.isValid():
                 self.date_edit.setDate(fecha_qdate)
+            else:
+                self.date_edit.setDate(QDate.currentDate())
         elif hasattr(fecha_val, "strftime"):
             fecha_str = fecha_val.strftime("%Y-%m-%d")
             fecha_qdate = QDate.fromString(fecha_str, "yyyy-MM-dd")
             if fecha_qdate.isValid():
                 self.date_edit.setDate(fecha_qdate)
+            else:
+                self.date_edit.setDate(QDate.currentDate())
         else:
             self.date_edit.setDate(QDate.currentDate())
         self.date_edit.setDisplayFormat("yyyy-MM-dd")
@@ -93,7 +97,7 @@ class EditarTarea(QMainWindow):
     def populate_categoria_combo(self):
         self.categoria_combo.clear()
         try:
-            categorias = Categorias.listar_categorias()
+            categorias = Categorias.listar_categorias(self.user_id)
             for cat in categorias:
                 self.categoria_combo.addItem(cat.nombre)
         except Exception as e:
@@ -102,7 +106,7 @@ class EditarTarea(QMainWindow):
     def guardar_cambios(self):
         try:
             tarea_actualizada = {
-                "idTarea": self.tarea_data["idTarea"],  # Se conserva el ID original
+                "idTarea": self.tarea_data["idTarea"],  # Conserva el ID original
                 "titulo": self.titulo_input.text().strip(),
                 "categoria": self.categoria_combo.currentText(),
                 "prioridad": self.prioridad_combo.currentText(),
@@ -114,7 +118,8 @@ class EditarTarea(QMainWindow):
                 QMessageBox.warning(self, "Campos vacíos", "El campo de título no puede estar vacío.")
                 return
 
-            categorias = Categorias.listar_categorias()
+            # Recuperar la categoría seleccionada usando el user_id
+            categorias = Categorias.listar_categorias(self.user_id)
             id_categoria = None
             for cat in categorias:
                 if cat.nombre == tarea_actualizada["categoria"]:
