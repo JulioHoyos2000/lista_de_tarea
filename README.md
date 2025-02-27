@@ -2,5 +2,5 @@
 
 | Apellido | Nombres |   
 |----------|---------|
-| Hoyos Lopes   | Julio  |
+| Hoyos Lopez   | Julio  |
 | Palomino Taype | Nelsy     |
